@@ -2,14 +2,13 @@ package stepDefinitions;
 
 import java.util.concurrent.TimeUnit;
 
-import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
-import cucumber.api.java.en.Then;
+import cucumber.api.java.en.When;
 import io.github.bonigarcia.wdm.WebDriverManager;
 
 public class FacebookSteps {
@@ -22,18 +21,58 @@ public class FacebookSteps {
 		driver.get("https://www.facebook.com/");
 		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 	}
-
-	@Then("^Verify email textbox is displayed$")
-	public void verify_email_textbox_is_displayed()  {
-		Assert.assertTrue(driver.findElement(By.id("email")).isDisplayed());
+	
+	@When("^Input to Username textbox$")
+	public void input_to_username_textbox()  {
+		driver.findElement(By.id("email")).clear();
+		driver.findElement(By.id("email")).sendKeys("automationtest@gmail.com");
 	}
 	
-	@And("^Verify password textbox is displayed$")
-	public void verify_password_textbox_is_displayed()  {
-		Assert.assertTrue(driver.findElement(By.id("pass")).isDisplayed());
+	@When("^Input to Password textbox$")
+	public void input_to_password_textbox()  {
+		driver.findElement(By.id("pass")).clear();
+		driver.findElement(By.id("pass")).sendKeys("123456");
 	}
+	
+	@When("^Click to submit button$")
+	public void click_to_submit_button()  {
+		driver.findElement(By.xpath("//button[@name='login']")).click();
+	}
+	
+	@When("^Input to Username textbox with \"([^\"]*)\"$")
+	public void input_to_username_textbox_with_something(String email) {
+		driver.findElement(By.id("email")).clear();
+		driver.findElement(By.id("email")).sendKeys(email);
+	}
+	
+	@And("^Input to Password textbox with \"([^\"]*)\"$")
+	public void input_to_password_textbox_with_something(String password) {
+		driver.findElement(By.id("pass")).clear();
+		driver.findElement(By.id("pass")).sendKeys(password);
+	}
+	
+    @When("^Input to Username textbox with ([^\"]*)$")
+    public void input_to_username_textbox(String email) {
+		driver.findElement(By.id("email")).clear();
+		driver.findElement(By.id("email")).sendKeys(email);
+    }
 
-	@And("^Close application")
+    @And("^Input to Password textbox with ([^\"]*)$")
+    public void input_to_password_textbox(String password) {
+		driver.findElement(By.id("pass")).clear();
+		driver.findElement(By.id("pass")).sendKeys(password);
+    }
+    
+    @When("^Input to Username textbox with \"([^\"]*)\" and Password textbox with \"([^\"]*)\"$")
+    public void input_to_username_textbox_with_something_and_password_textbox_with_something(String email, String password){
+    	driver.findElement(By.id("email")).clear();
+		driver.findElement(By.id("email")).sendKeys(email);
+		
+		driver.findElement(By.id("pass")).clear();
+		driver.findElement(By.id("pass")).sendKeys(password);
+    }
+
+	@And("^Close application$")
 	public void closeApplication()  {
 		driver.quit();
 	}
